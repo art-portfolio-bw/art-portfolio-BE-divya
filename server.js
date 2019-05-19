@@ -5,6 +5,7 @@ const cors = require('cors') // accepts requests from outside the domain where t
 
 // route imports
 const signupRoute = require('./routes/signup')
+const photoRoutes = require('./routes/photos')
 
 // variables
 const app = express()
@@ -15,7 +16,7 @@ app.use(cors())
 app.use(express.json()) // parses incoming data
 
 // routes
-app.get('/', (rep, res) => res.json({ msg: '🌿  🥀 🦋' }))
+app.use('/', photoRoutes)
 app.use('/signup', signupRoute)
 
 // export

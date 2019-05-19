@@ -36,16 +36,16 @@ This app contains two user types:
 Base URL: 
 
 ## Authentication
-| Method | Endpoint  | Access | Requirements          | Returns                                  |
-| :---   | :---      | :---   | :---                  | :---                                     |
-| POST   | `/signup` | anyone | name, email, password | A token, must be stored in local storage |
-| POST   | `/login`  | artist | email, password       | A token, must be stored in local storage |
+| Method | Endpoint  | Access | Requirements                       | Returns                               |
+| :---   | :---      | :---   | :---                               | :---                                  |
+| POST   | `/signup` | anyone | first & last name, email, password | A token, must be stored in local storage |
+| POST   | `/login`  | artist | email, password                 | A token, must be stored in local storage |
 
 ## Photo
-| Method | Endpoint              | Access  | Requirements  |
-| :---   | :---                  | :---    | :---:         |
-| GET    |  `/`                  | anyone  | None          |
-| PUT    | `/:artistId/:photoId` | artist  | description   |
+| Method | Endpoint              | Access  | Requirements  | Returns |
+| :---   | :---                  | :---    | :---          | :--     |
+| GET    |  `/`                  | anyone  | None          |         |
+| PUT    | `/:artistId/:photoId` | artist  | description   |         |
 
 
 Stretch:
