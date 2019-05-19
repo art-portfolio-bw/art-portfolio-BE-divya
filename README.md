@@ -36,18 +36,18 @@ This app contains two user types:
 Base URL: 
 
 ## Authentication
-| Method | Endpoint   | Access | Requirements    | Returns                                  |
-| :---   | :---       | :---   | :---            | :---                                     |
-| POST   | `/signup`  | anyone | email, password | A token, must be stored in local storage |
-| POST   | `/login`   | artist | email, password | A token, must be stored in local storage |
+| Method | Endpoint  | Access | Requirements          | Returns                                  |
+| :---   | :---      | :---   | :---                  | :---                                     |
+| POST   | `/signup` | anyone | name, email, password | A token, must be stored in local storage |
+| POST   | `/login`  | artist | email, password       | A token, must be stored in local storage |
 
 ## Photo
-| Method | Endpoint              | Access  | Requirements                     |
-| :---   | :---                  | :---    | :---:                            |
-| GET    |  `/`                  | anyone  | None                             |
-| PUT    | `/:artistId/:photoId` | artist  | description (string)             |
+| Method | Endpoint              | Access  | Requirements  |
+| :---   | :---                  | :---    | :---:         |
+| GET    |  `/`                  | anyone  | None          |
+| PUT    | `/:artistId/:photoId` | artist  | description   |
 
 
 Stretch:
-    - An artist can delete their own photos
-    - An artist can delete their account
+- An artist can delete their own photos
+- An artist can delete their account
