@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 // const db = require('../db/knex')
 const startCase = require('lodash/startCase')
-const lowerCase = require('lodash/lowerCase')
+const toLower = require('lodash/toLower')
 
 const app = express()
 app.use(express.json()) // parses incoming data
@@ -15,9 +15,19 @@ const secret = process.env.SECRET
 
 // route handlers
 const signup = async (req, res) => {
-  if (!req.body.name || !req.body.email || !req.body.password)
+  if (!req.body.name)
     return res.status(422).json({
-      msg: 'Your name, email and password are required to signup.'
+      msg: 'Your name is required to signup.'
+    })
+
+  if (!req.body.email)
+    return res.status(422).json({
+      msg: 'Please provide your email address.'
+    })
+
+  if (!req.body.password)
+    return res.status(422).json({
+      msg: 'A password is required to signup.'
     })
 
   try {
@@ -37,7 +47,7 @@ const signup = async (req, res) => {
 
 // middleware
 const startCaseName = (req, res, next) => {
-  req.body.name = startCase(lowerCase(req.body.name))
+  req.body.name = startCase(toLower(req.body.name))
   next()
 }
 
