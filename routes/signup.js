@@ -6,18 +6,20 @@ const jwt = require('jsonwebtoken')
 const startCase = require('lodash/startCase')
 const toLower = require('lodash/toLower')
 
-const app = express()
-app.use(express.json()) // parses incoming data
-
 // variables
 const router = express.Router()
 const secret = process.env.SECRET
 
 // route handlers
 const signup = async (req, res) => {
-  if (!req.body.name)
+  if (!req.body.fname)
     return res.status(422).json({
-      msg: 'Your name is required to signup.'
+      msg: 'Your first name is required to signup.'
+    })
+
+  if (!req.body.lname)
+    return res.status(422).json({
+      msg: 'Your last name is required to signup.'
     })
 
   if (!req.body.email)
@@ -36,10 +38,11 @@ const signup = async (req, res) => {
     const artist = { ...req.body, password: hash }
     const token = generateToken(artist)
     // await db('artists').insert(artist)
-    res.status(201).json({ msg: `Welcome, ${artist.name}!`, token })
+    res.status(201).json({ msg: `Welcome, ${artist.fname}!`, token })
   } catch (error) {
+    console.error(error)
     res.status(500).json({
-      msg: `Something went wrong while signing-up ${artist.name}.`,
+      msg: `Something went wrong while signing you up!`,
       error
     })
   }
@@ -47,7 +50,8 @@ const signup = async (req, res) => {
 
 // middleware
 const startCaseName = (req, res, next) => {
-  req.body.name = startCase(toLower(req.body.name))
+  req.body.fname = startCase(toLower(req.body.fname))
+  req.body.lname = startCase(toLower(req.body.lname))
   next()
 }
 
@@ -55,7 +59,8 @@ const startCaseName = (req, res, next) => {
 const generateToken = artist => {
   const payload = {
     // subject: artist.artistId,
-    name: artist.name
+    fname: artist.fname,
+    lname: artist.lname
   }
   const options = {
     expiresIn: '7d' // 7 days
