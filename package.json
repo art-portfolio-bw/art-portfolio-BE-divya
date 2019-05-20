@@ -1,0 +1,32 @@
+{
+  "name": "fotograph",
+  "version": "1.0.0",
+  "description": "Backend (express + postgres) server that provides user data using unsplash API and supports user CRUD operations",
+  "main": "index.js",
+  "repository": "https://github.com/art-portfolio-bw/art-portfolio-BE.git",
+  "author": "Divya Nair",
+  "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "test": "DB_ENV=testing jest --watch"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "faker": "^4.1.0",
+    "helmet": "^3.18.0",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^0.16.5",
+    "lodash": "^4.17.11",
+    "pg": "^7.11.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "nodemon": "^1.19.0",
+    "supertest": "^4.0.2"
+  }
+}
