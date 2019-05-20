@@ -1,7 +1,9 @@
 const getPhotos = require('../../unsplash')
 
 exports.seed = async function(knex, Promise) {
-  const data = await getPhotos(1, 30)  
+  const url =
+    'https://api.unsplash.com/search/photos?query=random&page=1&per_page=30&orientation=landscape'
+  const data = await getPhotos(url)
   const photos = data.map(photo => ({
     src: photo.src,
     description: photo.description,

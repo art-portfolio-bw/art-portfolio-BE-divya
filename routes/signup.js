@@ -2,15 +2,17 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const db = require('../db/knex')
 const faker = require('faker')
 const startCase = require('lodash/startCase')
 const toLower = require('lodash/toLower')
-// const db = require('../db/knex')
 const getPhotos = require('../unsplash')
 
 // variables
 const router = express.Router()
 const secret = process.env.SECRET
+const url =
+  'https://api.unsplash.com/search/photos?query=experimental&orientation=landscape'
 
 // route handlers
 const signup = async (req, res) => {
@@ -38,21 +40,47 @@ const signup = async (req, res) => {
       artistId: faker.random.uuid()
     }
     const token = generateToken(artist)
-    // await db('artists').insert(artist)
+    const newArtist = await db('artists').insert(artist, [
+      'artistId',
+      'fname',
+      'lname',
+      'email',
+      'avatar'
+    ])
 
-    const data = await getPhotos(4, 10)
+    const data = await getPhotos(url)
+    
     const photos = data.map(photo => ({
       src: photo.src,
       description: photo.description,
       alt: photo.alt,
       likes: photo.likes,
-      createdAt: photo.createdAt
+      createdAt: photo.createdAt,
+      artistId: newArtist[0].artistId
     }))
-    res.status(201).json({ msg: `Welcome, ${artist.fname}!`, token, photos })
+
+    const newPhotos = await db('photos').insert(photos, [
+      'photoId',
+      'src',
+      'description',
+      'alt',
+      'likes',
+      'createdAt'
+    ])
+
+    res.status(201).json({
+      msg: `Welcome, ${newArtist[0].fname}!`,
+      token,
+      ...newArtist[0],
+      photos: newPhotos
+    })
   } catch (error) {
     console.error(error)
     res.status(500).json({
-      msg: `Something went wrong while signing you up!`,
+      msg:
+        error.code === '23505'
+          ? `You're already signed-up with us! Please login instead.`
+          : `Something went wrong while signing you up!`,
       error
     })
   }

@@ -5,6 +5,7 @@ const cors = require('cors') // accepts requests from outside the domain where t
 
 // route imports
 const signupRoute = require('./routes/signup')
+const loginRoute = require('./routes/login')
 const photoRoutes = require('./routes/photos')
 
 // variables
@@ -18,6 +19,7 @@ app.use(express.json()) // parses incoming data
 // routes
 app.use('/', photoRoutes)
 app.use('/signup', signupRoute)
+app.use('/login', loginRoute)
 
 // export
 module.exports = app
