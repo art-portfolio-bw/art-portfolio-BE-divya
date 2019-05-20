@@ -3,7 +3,7 @@ const axios = require('axios')
 
 const key = process.env.UNSPLASH_KEY
 
-const getPhotos = async () => {
+const getPhotos = async (page = 1, per_page = 10) => {
   try {
     const options = {
       headers: {
@@ -11,7 +11,7 @@ const getPhotos = async () => {
       }
     }
     const response = await axios.get(
-      'https://api.unsplash.com/search/photos?query=random&per_page=30&orientation=landscape',
+      `https://api.unsplash.com/search/photos?query=random&page=${page}&per_page=${per_page}&orientation=landscape`,
       options
     )
     return response.data.results.map(result => ({

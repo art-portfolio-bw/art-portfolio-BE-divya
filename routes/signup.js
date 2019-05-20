@@ -2,9 +2,11 @@
 const express = require('express')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const db = require('../db/knex')
+const faker = require('faker')
 const startCase = require('lodash/startCase')
 const toLower = require('lodash/toLower')
+// const db = require('../db/knex')
+const getPhotos = require('../unsplash')
 
 // variables
 const router = express.Router()
@@ -17,14 +19,9 @@ const signup = async (req, res) => {
       msg: 'Your first name is required to signup.'
     })
 
-  if (!req.body.lname)
-    return res.status(422).json({
-      msg: 'Your last name is required to signup.'
-    })
-
   if (!req.body.email)
     return res.status(422).json({
-      msg: 'Please provide your email address.'
+      msg: 'Please provide your email address for signup.'
     })
 
   if (!req.body.password)
@@ -35,10 +32,23 @@ const signup = async (req, res) => {
   try {
     // hash the original password, then hash the hash 2^10 times
     const hash = await bcrypt.hashSync(req.body.password, 10)
-    const artist = { ...req.body, password: hash }
+    const artist = {
+      ...req.body,
+      password: hash,
+      artistId: faker.random.uuid()
+    }
     const token = generateToken(artist)
     // await db('artists').insert(artist)
-    res.status(201).json({ msg: `Welcome, ${artist.fname}!`, token })
+
+    const data = await getPhotos(4, 10)
+    const photos = data.map(photo => ({
+      src: photo.src,
+      description: photo.description,
+      alt: photo.alt,
+      likes: photo.likes,
+      createdAt: photo.createdAt
+    }))
+    res.status(201).json({ msg: `Welcome, ${artist.fname}!`, token, photos })
   } catch (error) {
     console.error(error)
     res.status(500).json({
@@ -58,7 +68,7 @@ const startCaseName = (req, res, next) => {
 // helpers
 const generateToken = artist => {
   const payload = {
-    // subject: artist.artistId,
+    subject: artist.artistId,
     fname: artist.fname,
     lname: artist.lname
   }

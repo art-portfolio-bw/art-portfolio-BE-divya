@@ -2,7 +2,7 @@ const getPhotos = require('../../unsplash')
 const uniqBy = require('lodash/uniqBy')
 
 exports.seed = async function(knex, Promise) {
-  const data = await getPhotos()
+  const data = await getPhotos(1, 30)
   const uniqArtists = uniqBy(data, 'artistId')
   const artists = uniqArtists.map(artist => ({
     fname: artist.fname,

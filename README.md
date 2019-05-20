@@ -20,7 +20,7 @@ This app contains two user types:
 - Login Page
   - This is where an artist can login
   - After login, they'll be directed to their portfolio page where they can create a "post"
-  - Each post needs to have an image, description and and upvote section to it (think instagram for artists)
+  - Each post needs to have an image, description and and upvote section (think instagram for artists)
 - Create Post Page
   - Allows an artist to create a post of their artwork (no need to upload photos for MVP)
   - **Stretch goal**. Build an image uploader into the site that allows users to upload their own assets. (This will require some work with a package called Drop Zone and a service called Cloudinary).
@@ -36,32 +36,56 @@ Base URL:
 
 ## Authentication
 
-| Method | Endpoint  | Access | Requirements                       | Returns                                  |
-| :----- | :-------- | :----- | :--------------------------------- | :--------------------------------------- |
-| POST   | `/signup` | anyone | first & last name, email, password | A token, must be stored in local storage |
-| POST   | `/login`  | artist | email, password                    | A token, must be stored in local storage |
+| Method | Endpoint  | Access | Required Data                      |
+| :----- | :-------- | :----- | :--------------------------------- |
+| POST   | `/signup` | anyone | first & last name, email, password |
+| POST   | `/login`  | artist | email, password                    |
 
-## Photo
+`POST /signup` and `POST \login` returns an object, in which the `photos` key is an array of length 10:
 
-| Method | Endpoint              | Access | Requirements | Returns             |
-| :----- | :-------------------- | :----- | :----------- | :------------------ |
-| GET    | `/`                   | anyone | None         | An array of objects |
-| PUT    | `/:artistId/:photoId` | artist | description  |                     |
-
-`GET` returns an array of objects:
-
-```json
-[
-    {
+```
+{
+    msg: A welcome message,
+    token: Token must be stored in local storage,
+    artistId: Artist ID,
     fname: Artist's first name,
     lname: Artist's last name,
     email: Artist's email,
     avatar: Artist's avatar image to be used in `<img src>`,
-    src: Photo to be used in `<img src>`,
-    description: Photo description, if available. Otherwise, it's an empty string,
-    alt: Photo's alternate text to be used in`<img alt>`,
-    likes: number of likes,
-    createdAt: Timestamp of when the photo was taken
+    photos: [
+                {
+                    photoId: Photo ID,
+                    src: `<img src>`,
+                    description: Photo description, if available. Otherwise, it's an empty string,
+                    alt: `<img alt>`,
+                    likes: Number of likes,
+                    createdAt: Timestamp of when the photo was taken
+                }, ...
+            ]
+}
+```
+
+## Photo
+
+| Method | Endpoint              | Access | Required Data |
+| :----- | :-------------------- | :----- | :------------ |
+| GET    | `/`                   | anyone | None          |
+| PUT    | `/:artistId/:photoId` | artist | description   |
+
+`GET /` returns an array of objects with length at least 30:
+
+```
+[
+    {
+        fname: Artist's first name,
+        lname: Artist's last name,
+        email: Artist's email,
+        avatar: Artist's avatar image to be used in `<img src>`,
+        src: Photo to be used in `<img src>`,
+        description: Photo description, if available. Otherwise, it's an empty string,
+        alt: Photo's alternate text to be used in `<img alt>`,
+        likes: Number of likes,
+        createdAt: Timestamp of when the photo was taken
     }, ...
 ]
 ```
