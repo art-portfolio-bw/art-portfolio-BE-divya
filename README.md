@@ -30,24 +30,43 @@ This app contains two user types:
   - Navigation is present on all pages
   - Users should know what page is active by clicking on a nav link and activating their tab
 
-
 # Endpoints
 
-Base URL: 
+Base URL:
 
 ## Authentication
-| Method | Endpoint  | Access | Requirements                       | Returns                               |
-| :---   | :---      | :---   | :---                               | :---                                  |
+
+| Method | Endpoint  | Access | Requirements                       | Returns                                  |
+| :----- | :-------- | :----- | :--------------------------------- | :--------------------------------------- |
 | POST   | `/signup` | anyone | first & last name, email, password | A token, must be stored in local storage |
-| POST   | `/login`  | artist | email, password                 | A token, must be stored in local storage |
+| POST   | `/login`  | artist | email, password                    | A token, must be stored in local storage |
 
 ## Photo
-| Method | Endpoint              | Access  | Requirements  | Returns |
-| :---   | :---                  | :---    | :---          | :--     |
-| GET    |  `/`                  | anyone  | None          |         |
-| PUT    | `/:artistId/:photoId` | artist  | description   |         |
 
+| Method | Endpoint              | Access | Requirements | Returns             |
+| :----- | :-------------------- | :----- | :----------- | :------------------ |
+| GET    | `/`                   | anyone | None         | An array of objects |
+| PUT    | `/:artistId/:photoId` | artist | description  |                     |
+
+`GET` returns an array of objects:
+
+```json
+[
+    {
+    fname: Artist's first name,
+    lname: Artist's last name,
+    email: Artist's email,
+    avatar: Artist's avatar image to be used in `<img src>`,
+    src: Photo to be used in `<img src>`,
+    description: Photo description, if available. Otherwise, it's an empty string,
+    alt: Photo's alternate text to be used in`<img alt>`,
+    likes: number of likes,
+    createdAt: Timestamp of when the photo was taken
+    }, ...
+]
+```
 
 Stretch:
+
 - An artist can delete their own photos
 - An artist can delete their account

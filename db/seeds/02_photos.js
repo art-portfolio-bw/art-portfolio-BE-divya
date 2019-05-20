@@ -7,7 +7,8 @@ exports.seed = async function(knex, Promise) {
     description: photo.description,
     alt: photo.alt,
     likes: photo.likes,
-    createdAt: photo.createdAt
+    createdAt: photo.createdAt,
+    artistId: photo.artistId
   }))
   return await knex('photos').insert(photos)
 }

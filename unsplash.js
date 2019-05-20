@@ -18,11 +18,13 @@ const getPhotos = async () => {
       src: result.urls.raw,
       description: result.description || '',
       alt: result.alt_description || '',
-      likes: result.likes,
+      likes: result.likes || 0,
       createdAt: result.created_at,
       fname: result.user.first_name,
       lname: result.user.last_name || '',
-      avatar: result.user.profile_image.small
+      avatar: result.user.profile_image.small,
+      email: `${result.user.username}@email.com`,
+      artistId: result.user.id
     }))
   } catch (error) {
     console.error(error)
