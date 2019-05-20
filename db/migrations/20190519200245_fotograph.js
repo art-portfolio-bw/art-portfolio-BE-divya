@@ -5,7 +5,10 @@ exports.up = async function(knex, Promise) {
       table.string('artistId').primary()
       table.string('fname').notNullable()
       table.string('lname').defaultTo('')
-      table.string('email').notNullable().unique()
+      table
+        .string('email')
+        .notNullable()
+        .unique()
       table.string('password').notNullable()
       table
         .string('avatar')
@@ -15,10 +18,7 @@ exports.up = async function(knex, Promise) {
     })
     .createTable('photos', table => {
       table.increments('photoId').unsigned()
-      table
-        .string('src')
-        .notNullable()
-        .unique()
+      table.string('src').notNullable()
       table.string('description').defaultTo('')
       table.string('alt').defaultTo('')
       table.integer('likes').defaultTo(0)
