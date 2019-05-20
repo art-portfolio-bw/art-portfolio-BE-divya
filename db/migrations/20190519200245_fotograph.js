@@ -35,5 +35,5 @@ exports.up = async function(knex, Promise) {
 
 // undo changes
 exports.down = async function(knex, Promise) {
-  return await knex.schema.dropTable('artists').dropTable('photos')
+  return await knex.schema.dropTable('photos').dropTable('artists')
 }
