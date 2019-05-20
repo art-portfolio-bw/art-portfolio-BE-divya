@@ -1,6 +1,7 @@
 # Description
 
 **Pitch**
+
 As an artist, I want to be able to show off my work. I'm a photographer and I have a lot of amazing foodie pics I'd like to share with potential clients, but I need a site that is more professional than Instagram in order to do so.
 
 **MVP**
@@ -32,7 +33,7 @@ This app contains two user types:
 
 # Endpoints
 
-Base URL:
+Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokuapp.com/)
 
 ## Authentication
 
@@ -94,3 +95,24 @@ Stretch:
 
 - An artist can delete their own photos
 - An artist can delete their account
+
+# Heroku Deployment
+
+- There are many `process.env.` variables throughout this app. Ensure that they are there for Heroku.
+
+- Go to the Heroku app > Settings and fill-in all the KEY/VALUE pairs from the `.env` file as well as DB_ENV:
+    - DB_ENV production
+    - SECRET yourSecret
+    - UNSPLASH_KEY yourKey
+
+- Go to Heroku app > Resources > Add-ons, search and add 'Heroku Postgres' free-tier.
+
+- Run migrations and seeds:
+```bash
+$ brew tap heroku/brew && brew install heroku
+$ heroku login
+$ heroku run knex migrate:latest -a artportfoliobw  # artportfoliobw is the heroku app name
+$ heroku run knex seed:run -a artportfoliobw
+```
+
+
