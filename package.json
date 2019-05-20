@@ -1,7 +1,7 @@
 {
-  "name": "fotograph-BE",
+  "name": "fotograph",
   "version": "1.0.0",
-  "description": "Backend (express + postgres) server that provides user data using faker.js and supports user CRUD operations",
+  "description": "Backend (express + postgres) server that provides user data using unsplash API and supports user CRUD operations",
   "main": "index.js",
   "repository": "https://github.com/art-portfolio-bw/art-portfolio-BE.git",
   "author": "Divya Nair",
@@ -20,7 +20,7 @@
     "faker": "^4.1.0",
     "helmet": "^3.18.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.17.0-next3",
+    "knex": "^0.16.5",
     "lodash": "^4.17.11",
     "pg": "^7.11.0"
   },
