@@ -49,13 +49,16 @@ const signup = async (req, res) => {
     ])
 
     const data = await getPhotos(url)
+    
     const photos = data.map(photo => ({
       src: photo.src,
       description: photo.description,
       alt: photo.alt,
       likes: photo.likes,
-      createdAt: photo.createdAt
+      createdAt: photo.createdAt,
+      artistId: newArtist[0].artistId
     }))
+
     const newPhotos = await db('photos').insert(photos, [
       'photoId',
       'src',

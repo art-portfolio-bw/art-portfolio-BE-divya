@@ -12,7 +12,7 @@ const getPhotos = async url => {
     }
     const response = await axios.get(url, options)
     return response.data.results.map(result => ({
-      src: result.urls.raw,
+      src: result.urls.small,
       description: result.description || '',
       alt: result.alt_description || '',
       likes: result.likes || 0,
