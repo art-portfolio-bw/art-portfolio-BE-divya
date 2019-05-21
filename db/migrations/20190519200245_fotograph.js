@@ -19,7 +19,7 @@ exports.up = async function(knex, Promise) {
     .createTable('photos', table => {
       table.increments('photoId').unsigned()
       table.string('src').notNullable()
-      table.string('description').defaultTo('')
+      table.text('description').defaultTo('')
       table.string('alt').defaultTo('')
       table.integer('likes').defaultTo(0)
       table.timestamp('createdAt').defaultTo(knex.fn.now())
