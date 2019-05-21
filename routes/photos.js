@@ -1,9 +1,11 @@
 // imports
 const express = require('express')
+const jwt = require('jsonwebtoken')
 const db = require('../db/knex')
 
 // variables
 const router = express.Router()
+const secret = process.env.SECRET
 
 // route handlers
 const getData = async (req, res) => {
@@ -43,11 +45,11 @@ const putPhoto = async (req, res) => {
 
     if (isUpdated) {
       const artist = await db('artists')
-        .where('artistId', req.headers.artistid)
+        .where('artistId', req.decodedToken.subject)
         .first()
       const photos = await db('artists')
         .join('photos', 'artists.artistId', 'photos.artistId')
-        .where('artists.artistId', req.headers.artistid)
+        .where('artists.artistId', req.decodedToken.subject)
         .orderBy('photos.createdAt', 'desc')
         .select(
           'photos.photoId',
@@ -86,11 +88,21 @@ const authenticate = async (req, res, next) => {
       .first()
 
     if (photo) {
-      photo.artistId === req.headers.artistid
-        ? next()
-        : res
+      jwt.verify(req.headers.token, secret, (error, decodedToken) => {
+        if (error) {
+          res
             .status(401)
             .json({ msg: 'You are not permitted to edit this photo.' })
+        } else {
+          // console.log('decodedToken', decodedToken)
+          req.decodedToken = decodedToken
+          decodedToken.subject === photo.artistId
+            ? next()
+            : res
+                .status(401)
+                .json({ msg: 'You are not permitted to edit this photo.' })
+        }
+      })
     } else res.status(404).json({ msg: `Fotograph doesn't have this photo!` })
   } catch (error) {
     console.error(error)

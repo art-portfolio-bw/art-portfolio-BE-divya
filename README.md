@@ -38,11 +38,11 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 ## Authentication
 
 | Method | Endpoint  | Access | Required Data               |
-| :----- | :-------- | :----- | :-------------------------- |
+| :----- | :-------  | :----- | :------------               |
 | POST   | `/signup` | anyone | first name, email, password |
 | POST   | `/login`  | artist | email, password             |
 
-`POST /signup` and `POST \login` returns an object, in which the `photos` key is an array of length 10 as shown below. Additionally, the photos from `POST \login` are ordered by the most recent `createdAt`.
+`POST /signup` and `POST \login` returns an object as shown below. The `photos` key is an array of length 10. Additionally, the photos from `POST \login` are ordered by the most recent `createdAt`.
 
 ```
 {
@@ -68,10 +68,10 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 
 ## Photo
 
-| Method | Endpoint    | Access | Required Data |
-| :----- | :---------  | :----- | :------------ |
-| GET    | `/`         | anyone | none          |
-| PUT    | `/:photoId` | artist | description   |
+| Method | Endpoint    | Access | Required Data       |
+| :----- | :-------    | :----- | :------------       |
+| GET    | `/`         | anyone | none                |
+| PUT    | `/:photoId` | artist | description, token  |
 
 `GET /` returns an array of objects with length at least 30, ordered by the most recent `createdAt`:
 
