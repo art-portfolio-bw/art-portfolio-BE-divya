@@ -35,6 +35,7 @@ const login = async (req, res) => {
         const photos = await db('artists')
           .join('photos', 'artists.artistId', 'photos.artistId')
           .where('artists.artistId', artist.artistId)
+          .orderBy('photos.createdAt', 'desc')
           .select(
             'photos.photoId',
             'src',
