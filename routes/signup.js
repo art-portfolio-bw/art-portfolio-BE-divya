@@ -1,16 +1,15 @@
 // imports
 const express = require('express')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const db = require('../db/knex')
 const faker = require('faker')
 const startCase = require('lodash/startCase')
 const toLower = require('lodash/toLower')
-const getPhotos = require('../unsplash')
+const getPhotos = require('../helpers/unsplash')
+const generateToken = require('../helpers/generateToken')
 
 // variables
 const router = express.Router()
-const secret = process.env.SECRET
 const url =
   'https://api.unsplash.com/search/photos?query=experimental&orientation=landscape'
 
@@ -49,7 +48,7 @@ const signup = async (req, res) => {
     ])
 
     const data = await getPhotos(url)
-    
+
     const photos = data.map(photo => ({
       src: photo.src,
       description: photo.description,
@@ -91,19 +90,6 @@ const startCaseName = (req, res, next) => {
   req.body.fname = startCase(toLower(req.body.fname))
   req.body.lname = startCase(toLower(req.body.lname))
   next()
-}
-
-// helpers
-const generateToken = artist => {
-  const payload = {
-    subject: artist.artistId,
-    fname: artist.fname,
-    lname: artist.lname
-  }
-  const options = {
-    expiresIn: '7d' // 7 days
-  }
-  return jwt.sign(payload, secret, options)
 }
 
 // routes
