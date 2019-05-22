@@ -18,6 +18,7 @@ const getData = async (req, res) => {
         'lname',
         'email',
         'avatar',
+        'photoId',
         'src',
         'description',
         'alt',
@@ -30,6 +31,33 @@ const getData = async (req, res) => {
     res
       .status(500)
       .json({ error, msg: 'Something went wrong while getting photos.' })
+  }
+}
+
+const getPhotoById = async (req, res) => {
+  try {
+    const photo = await db('photos')
+      .join('artists', 'artists.artistId', 'photos.artistId')
+      .where('photos.photoId', req.params.photoId)
+      .select(
+        'fname',
+        'lname',
+        'email',
+        'avatar',
+        'photoId',
+        'src',
+        'description',
+        'alt',
+        'likes',
+        'createdAt'
+      )
+      .first()
+    res.status(200).json(photo)
+  } catch (error) {
+    console.error(error)
+    res
+      .status(500)
+      .json({ error, msg: 'Something went wrong while getting this photo.' })
   }
 }
 
@@ -114,6 +142,7 @@ const authenticate = async (req, res, next) => {
 
 // routes
 router.get('/', getData)
+router.get('/:photoId', getPhotoById)
 router.put('/:photoId', authenticate, putPhoto)
 
 // export
