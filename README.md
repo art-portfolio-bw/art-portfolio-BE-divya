@@ -94,6 +94,7 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 | Method | Endpoint    | Access | Required Data                          |
 | :----- | :---------- | :----- | :------------------------------------- |
 | GET    | `/`         | anyone | none                                   |
+| GET    | `/:photoId` | anyone | none                                   |
 | PUT    | `/:photoId` | artist | description, token (in request header) |
 
 ### GET
