@@ -65,7 +65,7 @@ const getPhotoById = async (req, res) => {
 
 const putPhoto = async (req, res) => {
   if (!req.body.description) {
-    return res.status(400).send('Please provide a photo description.')
+    return res.status(422).send('Please provide a photo description.')
   }
 
   try {
