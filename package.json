@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Backend (express + postgres) server that provides user data using unsplash API and supports user CRUD operations",
   "main": "index.js",
-  "repository": "https://github.com/art-portfolio-bw/art-portfolio-BE.git",
+  "repository": "https://github.com/art-portfolio-bw/backend-server.git",
   "author": "Divya Nair",
   "license": "MIT",
   "scripts": {

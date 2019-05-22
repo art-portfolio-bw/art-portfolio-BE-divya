@@ -38,11 +38,34 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 ## Authentication
 
 | Method | Endpoint  | Access | Required Data               |
-| :----- | :-------  | :----- | :------------               |
+| :----- | :-------- | :----- | :-------------------------- |
 | POST   | `/signup` | anyone | first name, email, password |
 | POST   | `/login`  | artist | email, password             |
 
-`POST /signup` and `POST \login` returns an object as shown below. The `photos` key is an array of length 10. Additionally, the photos from `POST \login` are ordered by the most recent `createdAt`.
+- `POST /signup` **requires** the following **body** in the request:
+
+```
+{
+    "fname": "your first name",
+    "lname": "your last name",
+    "email: "your email",
+    "password": "your password"
+}
+```
+
+- `POST /login` **requires** the following **body** in the request:
+
+```
+{
+
+    "email": "your email",
+    "password": "your password"
+}
+```
+
+- They both return an object as shown below.
+- The `photos` key in that object is an array of length 10.
+- Additionally, the photos from `POST \login` are ordered by the most recent `createdAt`.
 
 ```
 {
@@ -68,12 +91,14 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 
 ## Photo
 
-| Method | Endpoint    | Access | Required Data       |
-| :----- | :-------    | :----- | :------------       |
-| GET    | `/`         | anyone | none                |
-| PUT    | `/:photoId` | artist | description, token  |
+| Method | Endpoint    | Access | Required Data                          |
+| :----- | :---------- | :----- | :------------------------------------- |
+| GET    | `/`         | anyone | none                                   |
+| PUT    | `/:photoId` | artist | description, token (in request header) |
 
-`GET /` returns an array of objects with length at least 30, ordered by the most recent `createdAt`:
+### GET
+
+- `GET /` returns an array of objects with length at least 30, ordered by the most recent `createdAt`:
 
 ```
 [
@@ -91,6 +116,36 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 ]
 ```
 
+### PUT
+
+- `PUT /:photoId` **requires** the token to be sent in the request **header**. It also **requires**
+`{ "description": "your description" }` in the request **body**.
+
+- It returns an object as shown below.
+- The `photos` key in that object is an array of length 10, ordered by the most recent `createdAt`.
+
+```
+{
+    msg: A welcome message,
+    token: Token must be stored in local storage,
+    artistId: Artist ID,
+    fname: Artist's first name,
+    lname: Artist's last name,
+    email: Artist's email,
+    avatar: Artist's avatar image to be used in `<img src>`,
+    photos: [
+                {
+                    photoId: Photo ID,
+                    src: `<img src>`,
+                    description: Photo description, if available. Otherwise, it's an empty string,
+                    alt: `<img alt>`,
+                    likes: Number of likes,
+                    createdAt: Timestamp of when the photo was taken
+                }, ...
+            ]
+}
+```
+
 Stretch:
 
 - An artist can delete their own photos
@@ -101,18 +156,18 @@ Stretch:
 - There are many `process.env.` variables throughout this app. Ensure that they are there for Heroku.
 
 - Go to the Heroku app > Settings and fill-in all the KEY/VALUE pairs from the `.env` file as well as DB_ENV:
-    - DB_ENV production
-    - SECRET yourSecret
-    - UNSPLASH_KEY yourKey
+
+  - DB_ENV production
+  - SECRET yourSecret
+  - UNSPLASH_KEY yourKey
 
 - Go to Heroku app > Resources > Add-ons, search and add 'Heroku Postgres' free-tier.
 
 - Run migrations and seeds:
+
 ```bash
 $ brew tap heroku/brew && brew install heroku
 $ heroku login
 $ heroku run knex migrate:latest -a artportfoliobw  # artportfoliobw is the heroku app name
 $ heroku run knex seed:run -a artportfoliobw
 ```
-
-

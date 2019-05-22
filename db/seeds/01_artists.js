@@ -1,4 +1,4 @@
-const getPhotos = require('../../unsplash')
+const getPhotos = require('../../helpers/unsplash')
 const uniqBy = require('lodash/uniqBy')
 
 exports.seed = async function(knex, Promise) {

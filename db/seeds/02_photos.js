@@ -1,4 +1,4 @@
-const getPhotos = require('../../unsplash')
+const getPhotos = require('../../helpers/unsplash')
 
 exports.seed = async function(knex, Promise) {
   const url =

@@ -1,12 +1,11 @@
 // imports
 const express = require('express')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
 const db = require('../db/knex')
+const generateToken = require('../helpers/generateToken')
 
 // variables
 const router = express.Router()
-const secret = process.env.SECRET
 
 // route handlers
 const login = async (req, res) => {
@@ -68,19 +67,6 @@ const login = async (req, res) => {
       msg: `Something went wrong while logging you in.`
     })
   }
-}
-
-// helpers
-const generateToken = artist => {
-  const payload = {
-    subject: artist.artistId,
-    fname: artist.fname,
-    lname: artist.lname
-  }
-  const options = {
-    expiresIn: '7d' // 7 days
-  }
-  return jwt.sign(payload, secret, options)
 }
 
 // routes
