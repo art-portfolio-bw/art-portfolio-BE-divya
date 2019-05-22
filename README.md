@@ -57,7 +57,6 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 
 ```
 {
-
     "email": "your email",
     "password": "your password"
 }
@@ -171,4 +170,19 @@ $ brew tap heroku/brew && brew install heroku
 $ heroku login
 $ heroku run knex migrate:latest -a artportfoliobw  # artportfoliobw is the heroku app name
 $ heroku run knex seed:run -a artportfoliobw
+```
+
+# Testing
+
+```bash
+# create postgres DB named test
+$ createdb test 
+
+# populate test DB with seed data
+$ ./node_modules/.bin/knex migrate:latest --env testing
+$ ./node_modules/.bin/knex seed:run --env testing
+
+# run tests
+$ yarn test # in terminal 1
+$ yarn server # in terminal 2
 ```
