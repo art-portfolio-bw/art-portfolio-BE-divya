@@ -52,7 +52,9 @@ const getPhotoById = async (req, res) => {
         'createdAt'
       )
       .first()
-    res.status(200).json(photo)
+    photo
+      ? res.status(200).json(photo)
+      : res.status(404).json({ msg: `Fotograph doesn't have this photo!` })
   } catch (error) {
     console.error(error)
     res
