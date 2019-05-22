@@ -18,4 +18,19 @@ describe('GET /', () => {
   })
 })
 
+describe('GET /:photoId', () => {
+  test('returns 200, if photoId exists in DB', async () => {
+    const res = await request(app).get('/1')
+    expect(res.status).toBe(200)
+  })
 
+  test(`returns 404, if photoId doesn't exist in DB`, async () => {
+    const res = await request(app).get('/1000')
+    expect(res.status).toBe(404)
+  })
+
+  test('returns an object', async () => {
+    const res = await request(app).get('/1')
+    expect(typeof res.body).toBe('object')
+  })
+})
