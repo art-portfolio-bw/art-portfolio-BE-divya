@@ -58,7 +58,7 @@ const login = async (req, res) => {
           .status(401)
           .send(`Uh, oh! Either your email or password is incorrect.`)
     } else {
-      res.status(400).send(`You have not yet signed-up with us!`)
+      res.status(404).send(`You have not yet signed-up with us!`)
     }
   } catch (error) {
     console.error(error)

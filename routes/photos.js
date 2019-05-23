@@ -52,7 +52,9 @@ const getPhotoById = async (req, res) => {
         'createdAt'
       )
       .first()
-    res.status(200).json(photo)
+    photo
+      ? res.status(200).json(photo)
+      : res.status(404).json({ msg: `Fotograph doesn't have this photo!` })
   } catch (error) {
     console.error(error)
     res
@@ -63,7 +65,7 @@ const getPhotoById = async (req, res) => {
 
 const putPhoto = async (req, res) => {
   if (!req.body.description) {
-    return res.status(400).send('Please provide a photo description.')
+    return res.status(422).send('Please provide a photo description.')
   }
 
   try {
