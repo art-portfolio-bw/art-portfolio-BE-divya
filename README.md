@@ -206,6 +206,5 @@ $ ./node_modules/.bin/knex migrate:latest --env testing
 $ ./node_modules/.bin/knex seed:run --env testing
 
 # run tests
-$ yarn test # in terminal 1
-$ yarn server # in terminal 2
+$ yarn test
 ```

@@ -2,6 +2,7 @@ require('dotenv').config()
 const request = require('supertest')
 const app = require('../server')
 const db = require('../db/knex')
+const knexCleaner = require('knex-cleaner')
 
 const password = process.env.PASSWORD
 
@@ -9,42 +10,37 @@ test('set to testing environment', () => {
   expect(process.env.DB_ENV).toBe('testing')
 })
 
-describe('POST /login', () => {
+describe('POST /signup', () => {
+  const fname = 'divya'
   const email = 'divya@email.com'
 
-  test(`returns 404, if user doesn't exist in DB`, async () => {
+  test(`returns 422, if first name isn't provided`, async () => {
     const res = await request(app)
-      .post('/login')
-      .send({ email: 'testing@email.com', password })
-    expect(res.status).toBe(404)
+      .post('/signup')
+      .send({ email, password })
+    expect(res.status).toBe(422)
   })
 
   test(`returns 422, if email isn't provided`, async () => {
     const res = await request(app)
-      .post('/login')
-      .send({ password })
+      .post('/signup')
+      .send({ fname, password })
     expect(res.status).toBe(422)
   })
 
   test(`returns 422, if password isn't provided`, async () => {
     const res = await request(app)
-      .post('/login')
-      .send({ email })
+      .post('/signup')
+      .send({ fname, email })
     expect(res.status).toBe(422)
   })
 
-  test(`returns 401, if user isn't authenticated`, async () => {
-    const res = await request(app)
-      .post('/login')
-      .send({ email, password: 'testing' })
-    expect(res.status).toBe(401)
-  })
-
-  // test('returns 200 with token', async () => {
+  // test('returns 201 with token', async () => {
+  //   await knexCleaner.clean(db) // empty out DB 'test' to fix duplicate email error
   //   const res = await request(app)
-  //     .post('/login')
-  //     .send({ email, password })
-  //   expect(res.status).toBe(200)
+  //     .post('/signup')
+  //     .send({ fname, email, password })
+  //   expect(res.status).toBe(201)
   //   expect(res.body).toHaveProperty('token')
   // })
 })
