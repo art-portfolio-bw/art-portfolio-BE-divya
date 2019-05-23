@@ -31,13 +31,19 @@ This app contains two user types:
   - Navigation is present on all pages
   - Users should know what page is active by clicking on a nav link and activating their tab
 
+**Deployed Links**
+
+- Landing page []()
+- Frontend [https://fotograph-app.netlify.com/](https://fotograph-app.netlify.com/)
+- Backend [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokuapp.com/)
+
 # Endpoints
 
 Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokuapp.com/)
 
 ## Authentication
 
-| Method | Endpoint  | Access | Required Data               |
+| Method | Endpoint  | Access | Required (body/header) Data |
 | :----- | :-------- | :----- | :-------------------------- |
 | POST   | `/signup` | anyone | first name, email, password |
 | POST   | `/login`  | artist | email, password             |
@@ -47,7 +53,6 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 ```
 {
     "fname": "your first name",
-    "lname": "your last name",
     "email: "your email",
     "password": "your password"
 }
@@ -57,13 +62,12 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 
 ```
 {
-
     "email": "your email",
     "password": "your password"
 }
 ```
 
-- They both return an object as shown below.
+- Both `POST`s return an object as shown below.
 - The `photos` key in that object is an array of length 10.
 - Additionally, the photos from `POST \login` are ordered by the most recent `createdAt`.
 
@@ -91,7 +95,7 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 
 ## Photo
 
-| Method | Endpoint    | Access | Required Data                          |
+| Method | Endpoint    | Access | Required (body/header) Data            |
 | :----- | :---------- | :----- | :------------------------------------- |
 | GET    | `/`         | anyone | none                                   |
 | GET    | `/:photoId` | anyone | none                                   |
@@ -108,6 +112,7 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
         lname: Artist's last name,
         email: Artist's email,
         avatar: Artist's avatar image to be used in `<img src>`,
+        photoId: Unique ID of the photo,
         src: Photo to be used in `<img src>`,
         description: Photo description, if available. Otherwise, it's an empty string,
         alt: Photo's alternate text to be used in `<img alt>`,
@@ -117,10 +122,27 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 ]
 ```
 
+- `GET /:photoId` returns a single object:
+
+```
+{
+    fname: Artist's first name,
+    lname: Artist's last name,
+    email: Artist's email,
+    avatar: Artist's avatar image to be used in `<img src>`,
+    photoId: Unique ID of the photo,
+    src: Photo to be used in `<img src>`,
+    description: Photo description, if available. Otherwise, it's an empty string,
+    alt: Photo's alternate text to be used in `<img alt>`,
+    likes: Number of likes,
+    createdAt: Timestamp of when the photo was taken
+}
+```
+
 ### PUT
 
 - `PUT /:photoId` **requires** the token to be sent in the request **header**. It also **requires**
-`{ "description": "your description" }` in the request **body**.
+  `{ "description": "your description" }` in the request **body**.
 
 - It returns an object as shown below.
 - The `photos` key in that object is an array of length 10, ordered by the most recent `createdAt`.
@@ -129,6 +151,37 @@ Base URL: [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokua
 {
     msg: A welcome message,
     token: Token must be stored in local storage,
+    artistId: Artist ID,
+    fname: Artist's first name,
+    lname: Artist's last name,
+    email: Artist's email,
+    avatar: Artist's avatar image to be used in `<img src>`,
+    photos: [
+                {
+                    photoId: Photo ID,
+                    src: `<img src>`,
+                    description: Photo description, if available. Otherwise, it's an empty string,
+                    alt: `<img alt>`,
+                    likes: Number of likes,
+                    createdAt: Timestamp of when the photo was taken
+                }, ...
+            ]
+}
+```
+
+## Artists
+
+| Method | Endpoint             | Access | Required (body/header) Data |
+| :----- | :------------------- | :----- | :-------------------------- |
+| GET    | `/artists/:artistId` | anyone | none                        |
+
+### GET
+
+- Returns a single object, as shown below, with the entire request artist info
+- The `photos` key in that object is ordered by the most recent `createdAt`
+
+```
+{
     artistId: Artist ID,
     fname: Artist's first name,
     lname: Artist's last name,
@@ -156,7 +209,7 @@ Stretch:
 
 - There are many `process.env.` variables throughout this app. Ensure that they are there for Heroku.
 
-- Go to the Heroku app > Settings and fill-in all the KEY/VALUE pairs from the `.env` file as well as DB_ENV:
+- Go to the Heroku app > Settings and fill-in the following KEY/VALUE pairs:
 
   - DB_ENV production
   - SECRET yourSecret
@@ -171,4 +224,18 @@ $ brew tap heroku/brew && brew install heroku
 $ heroku login
 $ heroku run knex migrate:latest -a artportfoliobw  # artportfoliobw is the heroku app name
 $ heroku run knex seed:run -a artportfoliobw
+```
+
+# Testing
+
+```bash
+# create postgres DB named test
+$ createdb test
+
+# populate test DB with seed data
+$ ./node_modules/.bin/knex migrate:latest --env testing
+$ ./node_modules/.bin/knex seed:run --env testing
+
+# run tests
+$ yarn test
 ```
