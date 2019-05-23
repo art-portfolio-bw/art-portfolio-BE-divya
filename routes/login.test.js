@@ -40,11 +40,11 @@ describe('POST /login', () => {
     expect(res.status).toBe(401)
   })
 
-  // test('returns 200 with token', async () => {
-  //   const res = await request(app)
-  //     .post('/login')
-  //     .send({ email, password })
-  //   expect(res.status).toBe(200)
-  //   expect(res.body).toHaveProperty('token')
-  // })
+  test('returns 200 with token', async () => {
+    const res = await request(app)
+      .post('/login')
+      .send({ email, password })
+    expect(res.status).toBe(200)
+    expect(res.body).toHaveProperty('token')
+  })
 })

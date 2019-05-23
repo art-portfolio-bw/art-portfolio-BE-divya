@@ -1,3 +1,7 @@
+/**
+ * @jest-environment node
+ */
+
 require('dotenv').config()
 const request = require('supertest')
 const app = require('../server')
@@ -11,6 +15,9 @@ test('set to testing environment', () => {
 })
 
 describe('POST /signup', () => {
+  // empty out DB 'test' to fix duplicate email error
+  afterAll(async () => await knexCleaner.clean(db))
+
   const fname = 'divya'
   const email = 'divya@email.com'
 
@@ -35,12 +42,11 @@ describe('POST /signup', () => {
     expect(res.status).toBe(422)
   })
 
-  // test('returns 201 with token', async () => {
-  //   await knexCleaner.clean(db) // empty out DB 'test' to fix duplicate email error
-  //   const res = await request(app)
-  //     .post('/signup')
-  //     .send({ fname, email, password })
-  //   expect(res.status).toBe(201)
-  //   expect(res.body).toHaveProperty('token')
-  // })
+  test('returns 201 with token', async () => {
+    const res = await request(app)
+      .post('/signup')
+      .send({ fname, email, password })
+    expect(res.status).toBe(201)
+    expect(res.body).toHaveProperty('token')
+  })
 })
