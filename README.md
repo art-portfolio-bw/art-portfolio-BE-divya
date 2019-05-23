@@ -32,6 +32,7 @@ This app contains two user types:
   - Users should know what page is active by clicking on a nav link and activating their tab
 
 **Deployed Links**
+
 - Landing page []()
 - Frontend [https://fotograph-app.netlify.com/](https://fotograph-app.netlify.com/)
 - Backend [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokuapp.com/)
@@ -177,7 +178,7 @@ Stretch:
 
 - There are many `process.env.` variables throughout this app. Ensure that they are there for Heroku.
 
-- Go to the Heroku app > Settings and fill-in all the KEY/VALUE pairs from the `.env` file as well as the DB_ENV key:
+- Go to the Heroku app > Settings and fill-in the following KEY/VALUE pairs:
 
   - DB_ENV production
   - SECRET yourSecret

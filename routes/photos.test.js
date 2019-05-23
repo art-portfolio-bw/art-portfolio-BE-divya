@@ -3,7 +3,7 @@ const request = require('supertest')
 const app = require('../server')
 const db = require('../db/knex')
 
-const token = process.env.ARTIST_TOKEN
+const token = process.env.TOKEN
 
 test('set to testing environment', () => {
   expect(process.env.DB_ENV).toBe('testing')
