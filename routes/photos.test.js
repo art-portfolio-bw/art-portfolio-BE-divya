@@ -1,7 +1,6 @@
 require('dotenv').config()
 const request = require('supertest')
 const app = require('../server')
-const db = require('../db/knex')
 
 const token = process.env.TOKEN
 
@@ -52,7 +51,7 @@ describe(`PUT /:photoId`, () => {
   test(`returns 422, if required field isn't provided`, async () => {
     const res = await request(app)
       .put('/31')
-      .set('token', token)  // authenticate user with token
+      .set('token', token) // authenticate user with token
       .send({ incorrectKey: 'testing' })
     expect(res.status).toBe(422)
   })

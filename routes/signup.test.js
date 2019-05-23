@@ -15,9 +15,9 @@ test('set to testing environment', () => {
 })
 
 describe('POST /signup', () => {
-  // empty out DB 'test' to fix duplicate email error
-  afterAll(async () => await knexCleaner.clean(db))
-
+  // remove DB data exactly once before running all tests
+  beforeEach(async () => await knexCleaner.clean(db))
+  
   const fname = 'divya'
   const email = 'divya@email.com'
 

@@ -1,7 +1,6 @@
 require('dotenv').config()
 const request = require('supertest')
 const app = require('../server')
-const db = require('../db/knex')
 
 const password = process.env.PASSWORD
 
