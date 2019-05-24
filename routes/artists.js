@@ -9,7 +9,7 @@ const router = express.Router()
 const getArtistById = async (req, res) => {
   try {
     const artist = await db('artists')
-      .where('email', req.body.email)
+      .where('artistId', req.params.artistId)
       .first()
     const photos = await db('artists')
       .join('photos', 'artists.artistId', 'photos.artistId')
