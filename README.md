@@ -33,7 +33,7 @@ This app contains two user types:
 
 **Deployed Links**
 
-- Landing page []()
+- Landing page [https://fotograph-sy.netlify.com/](https://fotograph-sy.netlify.com/)
 - Frontend [https://fotograph-app.netlify.com/](https://fotograph-app.netlify.com/)
 - Backend [https://artportfoliobw.herokuapp.com/](https://artportfoliobw.herokuapp.com/)
 
